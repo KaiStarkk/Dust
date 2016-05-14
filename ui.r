@@ -18,7 +18,10 @@ dashboardSidebar(
   )
 ),
 dashboardBody(
-  tags$style(type = "text/css", "#sensorMap {height: calc(91vh - 80px) !important;}"),
+  tags$head(
+    tags$script(src = "https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"),
+    tags$link(href = "https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css", rel="stylesheet")
+  ),
   tabItems(
     tabItem(tabName="overview", h2("Overview"), p("Lorem ipsum dolor sit amet.")),
     tabItem(tabName="plant-map",h2("Plant Map"), p("Lorem ipsum dolor sit amet."), leafletOutput("sensorMap")),
