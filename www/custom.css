@@ -2,6 +2,11 @@
 	font-family: "Slabo 27px", sans-serif;
 }
 
+.dropdown-menu .header {
+	height: 0px;
+	display: none;
+}
+
 /*.skin-blue .main-header .logo {
 	background-color: #f39c12;
 }
