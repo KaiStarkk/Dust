@@ -3,7 +3,7 @@ library(shinydashboard)
 library(leaflet)
 
 dashboardPage(skin="yellow",
-dashboardHeader(title = "Dust"),
+dashboardHeader(title = "Operation: Clear Skies"),
 dashboardSidebar(
   sidebarMenu(
     menuItem("Overview", tabName="overview", icon=icon("circle-o-notch")),
