@@ -3,7 +3,8 @@ library(shinydashboard)
 library(leaflet)
 
 server <- function(input, output) {
-  sensorLocs=read.csv("MAP_Sensor_Locations.csv")
+  sensorLocs=read.csv("data/MAP_Sensor_Locations.csv")
+  
   output$sensorMap <- renderLeaflet({
     require(leaflet)
     
