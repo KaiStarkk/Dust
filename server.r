@@ -9,6 +9,8 @@ server <- function(input, output) {
   values = sample(1:100, length(names), replace=T)
   current = data.frame(names, values)
   
+  equipment<-read.csv("data/Equipment_with_Coords.csv")
+  
   alerts = length(which(current$values >= 70))
   alertStatus = "danger"
   if (alerts <= 5) {
@@ -26,10 +28,19 @@ server <- function(input, output) {
     m <- leaflet()
     m <- addControlFullScreen(m)
     m <- addTiles(m)
+
     m <- addMarkers(m, icon=sensorIcon, lng=sensorLocs$Longitude, lat=sensorLocs$Latitude, 
                     popup=sensorLocs$Sample.Point, 
-                    clusterOptions=markerClusterOptions(showCoverageOnHover = FALSE, maxClusterRadius = 20)
+                    clusterOptions=markerClusterOptions(showCoverageOnHover = FALSE, maxClusterRadius = 20), group="Sensors"
                     )
+    
+    m <- addMarkers(m, lng=equipment$Longitude, lat=equipment$Latitude,
+                    popup=equipment$Code, group=equipment$Type)
+    
+    # Layers control
+    m <-addLayersControl(m, overlayGroups = c("Sensors", levels(equipment$Type)),
+      options = layersControlOptions(collapsed = FALSE)
+    )    
   })
   
   if (alerts > 0) {
