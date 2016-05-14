@@ -20,6 +20,8 @@ dashboardSidebar(
 dashboardBody(
   tags$head(
     tags$script(src = "https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"),
+    tags$link(href="https://fonts.googleapis.com/css?family=Slabo+27px", rel="stylesheet", type="text/css"),
+    tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"),
     tags$link(href = "https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css", rel="stylesheet")
   ),
   tabItems(
