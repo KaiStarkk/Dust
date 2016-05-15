@@ -7,6 +7,11 @@
 	display: none;
 }
 
+.dropdown-menu .pull-right {
+	height: 0px;
+	display: none;
+}
+
 /*.skin-blue .main-header .logo {
 	background-color: #f39c12;
 }

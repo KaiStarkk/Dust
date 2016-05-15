@@ -16,7 +16,7 @@ server <- function(input, output) {
   values = sample(1:100, length(names), replace=T)
   current = data.frame(names, values)
   
-  alerts = length(which(current$values >= 70))
+  alerts = length(which(current$values >= 50))
   alertStatus = "danger"
   if (alerts <= 5) {
     alertStatus = "warning"
@@ -94,7 +94,7 @@ server <- function(input, output) {
       } else if (rowValue >= 35) {
         rowStatus = "yellow"
       }
-      taskItem(value=rowValue, color=rowStatus, rowName)
+      taskItem(value=rowValue, color=rowStatus, paste(rowName," - ",rowValue,"ug/m3"))
     })
     dropdownMenu(type="tasks", badgeStatus=alertStatus, .list=statuses)
   })
