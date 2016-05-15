@@ -31,16 +31,16 @@ dashboardPage(skin="yellow",
       tags$link(href = "https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css", rel="stylesheet")
     ),
     tabItems(
-      tabItem(tabName="overview", h2("Overview"), p("Lorem ipsum dolor sit amet.")),
-      tabItem(tabName="plant-map",h2("Plant Map"), p("Lorem ipsum dolor sit amet.") ,leafletOutput("sensorMap")),
-      tabItem(tabName="sensor-measure-map",h2("Sensor Map"), p("Lorem ipsum dolor sit amet."), 
-              sliderInput("dateSlider", label = h3("Date"),
+      tabItem(tabName="overview", h2("Overview")),
+      tabItem(tabName="plant-map",h2("Plant Map"),leafletOutput("sensorMap")),
+      tabItem(tabName="sensor-measure-map",h2("Sensor Map"), 
+              sliderInput("dateSlider", label = h4("Date"),
                           min = 1, max = 25, value = 1), 
               textOutput("dateString"),
               leafletOutput("sensorMeasureMap")),
-      tabItem(tabName="metric-1", h2("Metric 1"), p("Lorem ipsum dolor sit amet.")),
-      tabItem(tabName="metric-2", h2("Metric 2"), p("Lorem ipsum dolor sit amet.")),
-      tabItem(tabName="metric-3", h2("Metric 3"), p("Lorem ipsum dolor sit amet.")),
+      tabItem(tabName="metric-1", h2("Metric 1")),
+      tabItem(tabName="metric-2", h2("Metric 2")),
+      tabItem(tabName="metric-3", h2("Metric 3")),
       tabItem(
               tabName="historical-data", 
               h2("Historical Data"),
@@ -61,7 +61,7 @@ dashboardPage(skin="yellow",
                 )
               )
               ),
-      tabItem(tabName="recommendations", h2("Recommendations"), p("orem ipsum dolor sit amet."))
+      tabItem(tabName="recommendations", h2("Recommendations"))
     )
   )
 )
