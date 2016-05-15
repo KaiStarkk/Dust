@@ -31,18 +31,38 @@ dashboardPage(skin="yellow",
       tags$link(href = "https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css", rel="stylesheet")
     ),
     tabItems(
-      tabItem(tabName="overview", h2("Overview"), p("Lorem ipsum dolor sit amet.")),
-      tabItem(tabName="plant-map",h2("Plant Map"), p("Lorem ipsum dolor sit amet.") ,leafletOutput("sensorMap")),
+
+      tabItem(tabName="overview", h2("Overview"), ),
+      tabItem(tabName="plant-map",h2("Plant Map"), leafletOutput("sensorMap")),
       tabItem(tabName="sensor-measure-map", 
               h3(textOutput("dateString")),
               sliderInput("dateSlider", label = h3(),
-                          min = 1, max = 25, value = 1), 
+                         min = 1, max = 25, value = 1), 
               leafletOutput("sensorMeasureMap")),
-      tabItem(tabName="metric-1", h2("Metric 1"), p("Lorem ipsum dolor sit amet.")),
-      tabItem(tabName="metric-2", h2("Metric 2"), p("Lorem ipsum dolor sit amet.")),
-      tabItem(tabName="metric-3", h2("Metric 3"), p("Lorem ipsum dolor sit amet.")),
-      tabItem(tabName="historical-data", h2("Historical Data"), p("Lorem ipsum dolor sit amet.")),
-      tabItem(tabName="recommendations", h2("Recommendations"), p("Lorem ipsum dolor sit amet."))
+      tabItem(tabName="metric-1", h2("Metric 1")),
+      tabItem(tabName="metric-2", h2("Metric 2")),
+      tabItem(tabName="metric-3", h2("Metric 3")),
+      tabItem(
+              tabName="historical-data", 
+              h2("Historical Data"),
+              fluidRow(
+                box(
+                  title = "Dust Alerts Over Time", width = 12, status = "warning",
+                  tags$img(src="images/Dust-Alerts-Over-Time.jpg", style="width:100%")
+                )
+              ),
+              fluidRow(
+                box(
+                  title = "Daily Average Dust vs. Solar Radiation", width = 6, status = "success", 
+                  tags$img(src="images/Dust-Against-Solar-Radiation.jpg", style="width:100%")
+                ),
+                box(
+                  title = "Daily Average Dust vs. Temperature", width = 6,
+                  tags$img(src="images/Dust-Against-Temperature.jpg", style="width:100%")
+                )
+              )
+              ),
+      tabItem(tabName="recommendations", h2("Recommendations"))
     )
   )
 )
