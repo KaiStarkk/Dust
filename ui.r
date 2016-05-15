@@ -19,6 +19,7 @@ dashboardPage(skin="yellow",
         menuSubItem("Metric 2", tabName="metric-2", icon=icon("area-chart")),
         menuSubItem("Metric 3", tabName="metric-3", icon=icon("bar-chart"))
       ),
+      menuItem("Historical Data", tabName="historical-data", icon=icon("history")),
       menuItem("Recommendations", tabName="recommendations", icon=icon("comments"))
     )
   ),
@@ -40,6 +41,7 @@ dashboardPage(skin="yellow",
       tabItem(tabName="metric-1", h2("Metric 1"), p("Lorem ipsum dolor sit amet.")),
       tabItem(tabName="metric-2", h2("Metric 2"), p("Lorem ipsum dolor sit amet.")),
       tabItem(tabName="metric-3", h2("Metric 3"), p("Lorem ipsum dolor sit amet.")),
+      tabItem(tabName="historical-data", h2("Historical Data"), p("Lorem ipsum dolor sit amet.")),
       tabItem(tabName="recommendations", h2("Recommendations"), p("Lorem ipsum dolor sit amet."))
     )
   )
