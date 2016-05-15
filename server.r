@@ -2,6 +2,7 @@ library(shiny)
 library(shinydashboard)
 library(leaflet)
 library(leafletplugins)
+library(RColorBrewer)
 
   server <- function(input, output) {
   sensorLocs = read.csv("data/MAP_Sensor_Locations.csv")
@@ -53,19 +54,42 @@ library(leafletplugins)
   
   output$dateString <- renderText({
     
-    input$dateSlider
+    selectedDate <- input$dateSlider
+    date <- colnames(sensorsOverTime[selectedDate+2])
+    date <- substr(date, 2,8)
   })
   
   output$sensorMeasureMap <- renderLeaflet({
     
-      selectedDate <- input$dateSlider
+  #selectedDate <- input$dateSlider
     
-      sensorsOverTime$triggers <- as.numeric((sensorsOverTime[,selectedDate+1]*100))
-      m <- leaflet()
-      m <- addCircles(m, lng=sensorLocs$Longitude, lat=sensorLocs$Latitude, weight=1, 
-                      radius=sqrt(sensorsOverTime$triggers), popup = sensorLocs$Sample.Point)
-      m <- addTiles(m)
+   #   sensorsOverTime$triggers <- as.numeric((sensorsOverTime[,selectedDate+1]*100))
+     # m <- leaflet()
+     # m <- addCircles(m, lng=sensorLocs$Longitude, lat=sensorLocs$Latitude, weight=1, 
+      #                radius=sqrt(sensorsOverTime$triggers), popup = sensorLocs$Sample.Point)
+      #m <- addTiles(m)
+    m <- leaflet()
+    m <- addControlFullScreen(m)
+    m <- addTiles(m)
     
+    m <- addMarkers(m, icon=sensorIcon, lng=sensorLocs$Longitude, lat=sensorLocs$Latitude, 
+                    popup=sensorLocs$Sample.Point, 
+                    clusterOptions=markerClusterOptions(showCoverageOnHover = FALSE, maxClusterRadius = 20), group="Sensors"
+    )
+    
+  })
+  
+  observe({
+     selectedDate <- input$dateSlider
+     proxyCir <- leafletProxy("sensorMeasureMap", data=sensorLocs)
+      proxyCir <- clearShapes(proxyCir) 
+      
+      
+      listToPlot <- as.numeric(sensorsOverTime[,selectedDate+1])
+      
+      proxyCir <- addCircles(proxyCir, radius = listToPlot*10, weight = 1, color = "#B0171F", 
+                             fillColor ='#B0171F',
+                fillOpacity = 0.5, popup = sensorLocs$Sample.Point)
   })
   
   if (alerts > 0) {
