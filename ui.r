@@ -4,7 +4,7 @@ library(leaflet)
 
 dashboardPage(skin="yellow",
   dashboardHeader(
-    title = "Operation: Clear Skies",
+    title = "Operation ClearSky",
     dropdownMenuOutput("alertMenu"),
     dropdownMenuOutput("statusMenu")
   ),
@@ -12,6 +12,7 @@ dashboardPage(skin="yellow",
     sidebarMenu(
       menuItem("Overview", tabName="overview", icon=icon("circle-o-notch")),
       menuSubItem("Plant Map", tabName="plant-map", icon=icon("map-o")),
+      menuSubItem("Sensor Measure Map", tabName="sensor-measure-map", icon=icon("map-o")),
       menuItem(
         "Metrics", icon=icon("pie-chart"), collapsible=
         menuSubItem("Metric 1", tabName="metric-1", icon=icon("line-chart")),
@@ -30,7 +31,12 @@ dashboardPage(skin="yellow",
     ),
     tabItems(
       tabItem(tabName="overview", h2("Overview"), p("Lorem ipsum dolor sit amet.")),
-      tabItem(tabName="plant-map",h2("Plant Map"), p("Lorem ipsum dolor sit amet."), leafletOutput("sensorMap")),
+      tabItem(tabName="plant-map",h2("Plant Map"), p("Lorem ipsum dolor sit amet.") ,leafletOutput("sensorMap")),
+      tabItem(tabName="sensor-measure-map",h2("Sensor Map"), p("Lorem ipsum dolor sit amet."), 
+              sliderInput("dateSlider", label = h3("Date"),
+                          min = 1, max = 26, value = 1), 
+              textOutput("dateString"),
+              leafletOutput("sensorMeasureMap")),
       tabItem(tabName="metric-1", h2("Metric 1"), p("Lorem ipsum dolor sit amet.")),
       tabItem(tabName="metric-2", h2("Metric 2"), p("Lorem ipsum dolor sit amet.")),
       tabItem(tabName="metric-3", h2("Metric 3"), p("Lorem ipsum dolor sit amet.")),

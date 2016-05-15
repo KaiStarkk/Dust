@@ -3,11 +3,18 @@ library(shinydashboard)
 library(leaflet)
 library(leafletplugins)
 
-server <- function(input, output) {
+  server <- function(input, output) {
   sensorLocs = read.csv("data/MAP_Sensor_Locations.csv")
   names = sensorLocs$Sample.Point
   values = sample(1:100, length(names), replace=T)
   current = data.frame(names, values)
+  
+  #Create dataframe that has number of triggers per sensor
+  sensorsOverTime <- read.csv("data/sensorsOverTime.csv")
+  
+  #Remove the airport sensor as it's far away and messing the map zoom
+  sensorLocs <- sensorLocs[-c(8),]
+  #sensorList <- sensorList[-c(8),]
   
   equipment<-read.csv("data/Equipment_with_Coords.csv")
   
@@ -24,7 +31,7 @@ server <- function(input, output) {
   )
   
   output$sensorMap <- renderLeaflet({
-    require(leaflet)
+    #require(leaflet)
     m <- leaflet()
     m <- addControlFullScreen(m)
     m <- addTiles(m)
@@ -41,6 +48,24 @@ server <- function(input, output) {
     m <-addLayersControl(m, overlayGroups = c("Sensors", levels(equipment$Type)),
       options = layersControlOptions(collapsed = FALSE)
     )    
+  })
+  flag<-0
+  
+  output$dateString <- renderText({
+    
+    input$dateSlider
+  })
+  
+  output$sensorMeasureMap <- renderLeaflet({
+    
+      selectedDate <- input$dateSlider
+    
+      sensorsOverTime$triggers <- as.numeric((sensorsOverTime[,selectedDate+1]*100))
+      m <- leaflet()
+      m <- addCircles(m, lng=sensorLocs$Longitude, lat=sensorLocs$Latitude, weight=1, 
+                      radius=sqrt(sensorsOverTime$triggers), popup = sensorLocs$Sample.Point)
+      m <- addTiles(m)
+    
   })
   
   if (alerts > 0) {
