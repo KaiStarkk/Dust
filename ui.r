@@ -37,11 +37,11 @@ dashboardPage(skin="yellow",
                 valueBoxOutput("sensorBox")
               )
               ),
-      tabItem(tabName="plant-map",h2("Plant Map"),leafletOutput("sensorMap")),
-      tabItem(tabName="sensor-measure-map",h2("Sensor Map"), 
-              sliderInput("dateSlider", label = h4("Date"),
-                          min = 1, max = 25, value = 1), 
-              textOutput("dateString"),
+      tabItem(tabName="plant-map",h2("Plant Map"), leafletOutput("sensorMap")),
+      tabItem(tabName="sensor-measure-map", 
+              h3(textOutput("dateString")),
+              sliderInput("dateSlider", label = h3(),
+                         min = 1, max = 25, value = 1),
               leafletOutput("sensorMeasureMap")),
       tabItem(tabName="stage-1", h2("Stage 1"),
               box(
