@@ -4,7 +4,7 @@ library(leaflet)
 
 dashboardPage(skin="yellow",
   dashboardHeader(
-    title = "Operation ClearSky",
+    title = "Clear Skies",
     dropdownMenuOutput("alertMenu"),
     dropdownMenuOutput("statusMenu")
   ),
