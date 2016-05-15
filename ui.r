@@ -46,20 +46,20 @@ dashboardPage(skin="yellow",
       tabItem(tabName="stage-1", h2("Stage 1"),
               box(
                 title = "Bureau of Meteorology - Wind Speed & Direction Forecast", width = 12, status = "warning",
-                tags$img(src="images/wind-forecast.png", style="width:100%")
+                tags$img(src="images/wind-forecast.png", style="max-width:100%")
               )
               ),
       tabItem(tabName="stage-2", h2("Stage 2"), h4("Based on the wind speed and direction:"), h4("- the following dust levels are predicted."), br(),
               box(
                 title = "Dust Level Forecast", width = 12, status = "warning",
-                tags$img(src="images/forecast.png", style="width:100%")
+                tags$img(src="images/forecast.png", style="max-width:600px")
               ),
-              h2("This represents an exceedence of the license.")
+              h3("This represents an exceedance of the license.")
       ),
       tabItem(tabName="recommendations", h2("Recommendations"), h4("Based on the wind speed and direction:"), h4("- use of the following equipment configurations should be AVOIDED, if possible."), br(),
               box(
                 title = "Equipment Combinations", width = 12, status = "warning",
-                tags$img(src="images/equipment-combination.png", style="width:100%")
+                tags$img(src="images/equipment-combination.png", style="max-width:500px")
               )              
       ),
       tabItem(
