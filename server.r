@@ -3,20 +3,18 @@ library(shinydashboard)
 library(leaflet)
 library(leafletplugins)
 
-  server <- function(input, output) {
+server <- function(input, output) {
+  
+  # --------------------- Load Sensor Information ---------------------
   sensorLocs = read.csv("data/MAP_Sensor_Locations.csv")
+  
+  # ------------------- Load Equipment Information --------------------
+  equipment<-read.csv("data/Equipment_with_Coords.csv")
+  
+  # Calculate Urgent Information
   names = sensorLocs$Sample.Point
   values = sample(1:100, length(names), replace=T)
   current = data.frame(names, values)
-  
-  #Create dataframe that has number of triggers per sensor
-  sensorsOverTime <- read.csv("data/sensorsOverTime.csv")
-  
-  #Remove the airport sensor as it's far away and messing the map zoom
-  sensorLocs <- sensorLocs[-c(8),]
-  #sensorList <- sensorList[-c(8),]
-  
-  equipment<-read.csv("data/Equipment_with_Coords.csv")
   
   alerts = length(which(current$values >= 70))
   alertStatus = "danger"
@@ -24,6 +22,13 @@ library(leafletplugins)
     alertStatus = "warning"
   }
   
+  #Create dataframe that has number of triggers per sensor
+  sensorsOverTime <- read.csv("data/sensorsOverTime.csv")
+  
+  # Remove the airport sensor as it's far away and messing the map zoom
+  sensorLocs <- sensorLocs[-c(8),]
+  
+  # ---------------------- Prepare for Mapping ------------------------
   sensorIcon <- makeIcon(
     iconUrl = "resources/sensor-icon.png",
     iconWidth = 20, iconHeight = 20,
@@ -31,7 +36,6 @@ library(leafletplugins)
   )
   
   output$sensorMap <- renderLeaflet({
-    #require(leaflet)
     m <- leaflet()
     m <- addControlFullScreen(m)
     m <- addTiles(m)
@@ -49,6 +53,7 @@ library(leafletplugins)
       options = layersControlOptions(collapsed = FALSE)
     )    
   })
+  
   flag<-0
   
   output$dateString <- renderText({
