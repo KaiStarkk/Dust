@@ -19,8 +19,16 @@ server <- function(input, output) {
   
   alerts = length(which(current$values >= 50))
   alertStatus = "danger"
+  alertColor = "red"
+  alertIcon = "exclamation-triangle"
   if (alerts <= 5) {
     alertStatus = "warning"
+    alertColor = "yellow"
+  }
+  if (alerts == 0) {
+    alertStatus = "success"
+    alertColor = "green"
+    alertIcon = "tick"
   }
   
   #Create dataframe that has number of triggers per sensor
@@ -121,5 +129,19 @@ server <- function(input, output) {
       taskItem(value=rowValue, color=rowStatus, paste(rowName," - ",rowValue,"ug/m3"))
     })
     dropdownMenu(type="tasks", badgeStatus=alertStatus, .list=statuses)
+  })
+  
+  # ---------------------- Overview graphic information -------------------------
+  output$exceedanceBox <- renderValueBox({
+    valueBox(
+      alerts, "Exceedances", icon = icon(alertIcon),
+      color = alertColor
+    )
+  })
+  output$sensorBox <- renderValueBox({
+    valueBox(
+      length(names), "Sensors Online", icon = icon("list", lib = "glyphicon"),
+      color = "blue"
+    )
   })
 }
