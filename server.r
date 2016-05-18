@@ -6,6 +6,8 @@ library(RColorBrewer)
 
 server <- function(input, output) {
   
+  pwdCheck <- 0
+  
   # --------------------- Load Sensor Information ---------------------
   sensorLocs = read.csv("data/MAP_Sensor_Locations.csv")
   
@@ -45,6 +47,18 @@ server <- function(input, output) {
   )
   
   output$sensorMap <- renderLeaflet({
+    
+    username <- input$username
+    password <- input$password
+    
+    if(username=="BHP" & password=="MineHack" ){
+      pwdCheck = 1
+    }
+    else{
+      pwdCheck = 0
+    }
+    
+    if(pwdCheck==1){
     m <- leaflet()
     m <- addControlFullScreen(m)
     m <- addTiles(m)
@@ -61,6 +75,7 @@ server <- function(input, output) {
     m <-addLayersControl(m, overlayGroups = c("Sensors", levels(equipment$Type)),
       options = layersControlOptions(collapsed = FALSE)
     )    
+    }
   })
   
   flag<-0
@@ -73,14 +88,17 @@ server <- function(input, output) {
   })
   
   output$sensorMeasureMap <- renderLeaflet({
+    username <- input$username
+    password <- input$password
     
-  #selectedDate <- input$dateSlider
+    if(username=="BHP" & password=="MineHack" ){
+      pwdCheck = 1
+    }
+    else{
+      pwdCheck = 0
+    }
     
-   #   sensorsOverTime$triggers <- as.numeric((sensorsOverTime[,selectedDate+1]*100))
-     # m <- leaflet()
-     # m <- addCircles(m, lng=sensorLocs$Longitude, lat=sensorLocs$Latitude, weight=1, 
-      #                radius=sqrt(sensorsOverTime$triggers), popup = sensorLocs$Sample.Point)
-      #m <- addTiles(m)
+    if(pwdCheck==1){
     m <- leaflet()
     m <- addControlFullScreen(m)
     m <- addTiles(m)
@@ -89,6 +107,7 @@ server <- function(input, output) {
                     popup=sensorLocs$Sample.Point, 
                     clusterOptions=markerClusterOptions(showCoverageOnHover = FALSE, maxClusterRadius = 20), group="Sensors"
     )
+    }
     
   })
   
@@ -105,11 +124,119 @@ server <- function(input, output) {
                 fillOpacity = 0.5, popup = sensorLocs$Sample.Point)
   })
   
+  output$imageWeather <- renderUI({
+    username <- input$username
+    password <- input$password
+    
+    if(username=="BHP" & password=="MineHack" ){
+      pwdCheck = 1
+    }
+    else{
+      pwdCheck = 0
+    }
+    if(pwdCheck==1)
+      tags$img(src="images/wind-forecast.png", style="max-width:100%")
+  })
+  
+  output$imageForecast <- renderUI({
+    username <- input$username
+    password <- input$password
+    
+    if(username=="BHP" & password=="MineHack" ){
+      pwdCheck = 1
+    }
+    else{
+      pwdCheck = 0
+    }
+    if(pwdCheck==1)
+    tags$img(src="images/forecast.png", style="max-width:600px")
+    })
+  
+  output$imageRecom <- renderUI({
+    username <- input$username
+    password <- input$password
+    
+    if(username=="BHP" & password=="MineHack" ){
+      pwdCheck = 1
+    }
+    else{
+      pwdCheck = 0
+    }
+    if(pwdCheck==1)
+      tags$img(src="images/equipment-combination.png", style="max-width:600px")
+  })
+  
+  output$imageDustOverTime <- renderUI({
+    username <- input$username
+    password <- input$password
+    
+    if(username=="BHP" & password=="MineHack" ){
+      pwdCheck = 1
+    }
+    else{
+      pwdCheck = 0
+    }
+    if(pwdCheck==1)
+      tags$img(src="images/Dust-Alerts-Over-Time.jpg", style="width:100%")
+  })
+  
+  output$imageDustSolar<- renderUI({
+    username <- input$username
+    password <- input$password
+    
+    if(username=="BHP" & password=="MineHack" ){
+      pwdCheck = 1
+    }
+    else{
+      pwdCheck = 0
+    }
+    if(pwdCheck==1)
+      tags$img(src="images/Dust-Against-Solar-Radiation.jpg", style="width:100%")
+  })
+  
+  output$imageDustTemp<- renderUI({
+    username <- input$username
+    password <- input$password
+    
+    if(username=="BHP" & password=="MineHack" ){
+      pwdCheck = 1
+    }
+    else{
+      pwdCheck = 0
+    }
+    if(pwdCheck==1)
+      tags$img(src="images/Dust-Against-Temperature.jpg", style="width:100%")
+  })
+  
+  output$imageAwareness<- renderUI({
+    username <- input$username
+    password <- input$password
+    
+    if(username=="BHP" & password=="MineHack" ){
+      pwdCheck = 1
+    }
+    else{
+      pwdCheck = 0
+    }
+    if(pwdCheck==1)
+      tags$img(src="images/Motivation.png", style="width:100%")
+  })
+  
   if (alerts > 0) {
     output$alertMenu <- renderMenu({
+     username <- input$username
+      password <- input$password
+      numberOfAlerts <- 0
+      
+      if(username=="BHP" & password=="MineHack" ){
+        pwdCheck = 1
+        numberOfAlerts <-alerts
+      }
+      
+      
       dropdownMenu(type="notifications", badgeStatus = alertStatus,
                    notificationItem(
-                     text = paste(alerts, "sensors detecting >= 70ug/m3", sep=" "),
+                     text = paste(numberOfAlerts, "sensors detecting >= 70ug/m3", sep=" "),
                      icon = icon("exclamation-triangle"),
                      status = "warning"
                    ))
@@ -117,31 +244,66 @@ server <- function(input, output) {
   }
   
   output$statusMenu <- renderMenu({
-    statuses <- apply(current,1,function(row){
-      rowValue = row[["values"]]
-      rowName = row[["names"]]
-      rowStatus = "green"
-      if (rowValue >= 70) {
-        rowStatus = "red"
-      } else if (rowValue >= 35) {
-        rowStatus = "yellow"
-      }
-      taskItem(value=rowValue, color=rowStatus, paste(rowName," - ",rowValue,"ug/m3"))
-    })
-    dropdownMenu(type="tasks", badgeStatus=alertStatus, .list=statuses)
+    #username <- input$username
+    #password <- input$password
+    #rowName <- ""
+    #rowValue <- 0
+    
+    #if(username=="BHP" & password=="MineHack" ){
+     # pwdCheck = 1
+      #rowValue = row[["values"]]
+      #rowName = row[["names"]]
+    #}
+    
+    #statuses <- apply(current,1,function(row){
+      
+     # rowStatus = "green"
+      #if (rowValue >= 70) {
+       # rowStatus = "red"
+      #} else if (rowValue >= 35) {
+       # rowStatus = "yellow"
+      #}
+      #taskItem(value=rowValue, color=rowStatus, paste(rowName," - ",rowValue,"ug/m3"))
+    #})
+    #dropdownMenu(type="tasks", badgeStatus=alertStatus, .list=statuses)
   })
   
   # ---------------------- Overview graphic information -------------------------
+  
+  
   output$exceedanceBox <- renderValueBox({
+    username <- input$username
+    password <- input$password
+    numberOfExc <-0
+    
+    if(username=="BHP" & password=="MineHack" ){
+      
+      numberOfExc <-alerts
+    }
     valueBox(
-      alerts, "Exceedances", icon = icon(alertIcon),
+      numberOfExc, "Exceedances", icon = icon(alertIcon),
       color = alertColor
     )
   })
   output$sensorBox <- renderValueBox({
+    username <- input$username
+    password <- input$password
+    numberOfSensors <-0
+    
+    if(username=="BHP" & password=="MineHack" ){
+      
+      numberOfSensors <-length(names)
+    }
+   
+    
     valueBox(
-      length(names), "Sensors Online", icon = icon("list", lib = "glyphicon"),
+      numberOfSensors, "Sensors Online", icon = icon("list", lib = "glyphicon"),
       color = "blue"
     )
+  
   })
+  
+  
+  
+
 }

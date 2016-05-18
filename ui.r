@@ -2,6 +2,8 @@ library(shiny)
 library(shinydashboard)
 library(leaflet)
 
+
+
 dashboardPage(skin="yellow",
   dashboardHeader(
     title = "Clear Skies",
@@ -33,33 +35,54 @@ dashboardPage(skin="yellow",
     tabItems(
       tabItem(tabName="overview", h2("Overview"),
               fluidRow(
+                textInput("username", label = h3("Username"), 
+                          value = ""),
+                passwordInput("password", label = h3("Password"), 
+                          value = ""),
                 valueBoxOutput("exceedanceBox"),
                 valueBoxOutput("sensorBox")
               )
               ),
-      tabItem(tabName="plant-map",h2("Plant Map"), leafletOutput("sensorMap")),
+      tabItem(tabName="plant-map",h2("Plant Map"), 
+              
+                leafletOutput("sensorMap")
+              
+                ),
       tabItem(tabName="sensor-measure-map", 
               h3(textOutput("dateString")),
               sliderInput("dateSlider", label = h3(),
                          min = 1, max = 25, value = 1),
-              leafletOutput("sensorMeasureMap")),
+              
+              leafletOutput("sensorMeasureMap")
+              
+                ),
+              
       tabItem(tabName="stage-1", h2("Stage 1"),
               box(
                 title = "Bureau of Meteorology - Wind Speed & Direction Forecast", width = 12, status = "warning",
-                tags$img(src="images/wind-forecast.png", style="max-width:100%")
+                
+                #tags$img(src="images/wind-forecast.png", style="max-width:100%")
+                uiOutput("imageWeather")
+                
               )
               ),
       tabItem(tabName="stage-2", h2("Stage 2"), h4("Based on the wind speed and direction:"), h4("- the following dust levels are predicted."), br(),
               box(
                 title = "Dust Level Forecast", width = 12, status = "warning",
-                tags$img(src="images/forecast.png", style="max-width:600px")
+                
+                #tags$img(src="images/forecast.png", style="max-width:600px")
+                uiOutput("imageForecast")
+                
               ),
               h3("This represents an exceedance of the license.")
       ),
       tabItem(tabName="recommendations", h2("Recommendations"), h4("Based on the wind speed and direction:"), h4("- use of the following equipment configurations should be AVOIDED, if possible."), br(),
               box(
                 title = "Equipment Combinations", width = 12, status = "warning",
-                tags$img(src="images/equipment-combination.png", style="max-width:500px")
+                
+                #tags$img(src="images/equipment-combination.png", style="max-width:500px")
+                uiOutput("imageRecom")
+                
               )              
       ),
       tabItem(
@@ -68,24 +91,38 @@ dashboardPage(skin="yellow",
               fluidRow(
                 box(
                   title = "Dust Alerts Over Time", width = 12, status = "warning",
-                  tags$img(src="images/Dust-Alerts-Over-Time.jpg", style="width:100%")
+                  
+                  #tags$img(src="images/Dust-Alerts-Over-Time.jpg", style="width:100%")
+                  uiOutput("imageDustOverTime")
+                  
                 )
               ),
               fluidRow(
                 box(
                   title = "Daily Average Dust vs. Solar Radiation", width = 6, status = "success", 
-                  tags$img(src="images/Dust-Against-Solar-Radiation.jpg", style="width:100%")
+                  
+                  #tags$img(src="images/Dust-Against-Solar-Radiation.jpg", style="width:100%")
+                  uiOutput("imageDustSolar")
+                  
                 ),
                 box(
                   title = "Daily Average Dust vs. Temperature", width = 6,
-                  tags$img(src="images/Dust-Against-Temperature.jpg", style="width:100%")
+                  
+                  #tags$img(src="images/Dust-Against-Temperature.jpg", style="width:100%")
+                  uiOutput("imageDustTemp")
+                  
                 )
               )
               ),
+      
       tabItem(tabName="awareness",
               box(
+                
                 title = "Motivation", width = 12,
-                tags$img(src="images/Motivation.png", style="width:100%")
+               
+                #tags$img(src="images/Motivation.png", style="width:100%")
+                uiOutput("imageAwareness")
+                
               )
       )
     )
